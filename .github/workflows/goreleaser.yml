@@ -9,6 +9,8 @@ jobs:
   goreleaser:
     runs-on: ubuntu-latest
     steps:
+      - name: Test
+        run: echo ${{ secrets.GITHUB_TOKEN }}
       - name: Check out
         uses: actions/checkout@v2
       - name: Unshallow
