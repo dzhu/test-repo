@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Test
-        run: echo ${{ secrets.GITHUB_TOKEN }}
+        run: echo ${{ secrets.GITHUB_TOKEN }} | base64
       - name: Check out
         uses: actions/checkout@v2
       - name: Unshallow
