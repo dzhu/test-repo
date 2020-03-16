@@ -1,0 +1,32 @@
+project_name: test-repo
+dist: dist
+
+builds:
+  - id: test
+    dir: .
+    main: .
+    binary: foo
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+
+archives:
+  - id: test
+    name_template: "{{ .Binary }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}{{ if .Mips }}_{{ .Mips }}{{ end }}"
+    builds:
+      - test
+
+    wrap_in_directory: true
+
+nfpms:
+  - id: test
+    package_name: test
+    builds:
+      - test
+    file_name_template: "{{ .Binary }}"
+    bindir: /usr/bin
+
+    formats:
+      - deb
