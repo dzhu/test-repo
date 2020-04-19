@@ -1,0 +1,23 @@
+name: check_pr_body
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+
+jobs:
+  check-body:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Check out
+        uses: actions/checkout@v2
+      - name: Check body
+        env:
+          GO111MODULE: on
+          GOPATH: /tmp/gopath
+        run: |
+          set -o pipefail
+          go get github.com/talos-systems/conform@v0.1.0-alpha.19
+          # mkdir -p $GOPATH/bin; wget https://github.com/talos-systems/conform/releases/download/v0.1.0-alpha.19/conform-linux-amd64 -O $GOPATH/bin/conform; chmod +x $GOPATH/bin/conform
+          python3 .github/extract_commit_message.py < ${{ github.event_path }} | tee /dev/stderr | $GOPATH/bin/conform enforce --commit-msg-file /dev/stdin
