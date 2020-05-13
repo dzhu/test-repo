@@ -7,6 +7,17 @@ on:
       - synchronize
 
 jobs:
+  test:
+    runs-on: ubuntu-18.04
+    env:
+      FOO: BAR
+    steps:
+      - name: Check out
+        uses: actions/checkout@v2
+      - name: Test action
+        uses: ./
+        with:
+          input: INPUT
   check-body:
     runs-on: ubuntu-18.04
     env:
